@@ -4,14 +4,15 @@ from django.shortcuts import redirect, render
 from .layers.services import services
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from layers.utilities.translator import fromRequestIntoCard #Lucas: Importo la función del translator que llama a las Cards
 
 def index_page(request):
     return render(request, 'index.html')
 
 # esta función obtiene 2 listados: uno de las imágenes de la API y otro de favoritos, ambos en formato Card, y los dibuja en el template 'home.html'.
 def home(request):
-    images = []
-    favourite_list = []
+    images = services.getAllImages() #Lucas: Ahora deberíamos obtener las imágenes de la API
+    favourite_list = [] #Lucas: Queda vacío por el momento
 
     return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
 
