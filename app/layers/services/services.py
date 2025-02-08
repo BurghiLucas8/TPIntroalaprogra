@@ -4,7 +4,6 @@ from ..transport import transport
 from ..persistence import repositories
 from ..utilities import translator
 from django.contrib.auth import get_user
-from ..transport import transport
 from ..utilities.translator import fromRequestIntoCard
 
 # función que devuelve un listado de cards. Cada card representa una imagen de la API de HP.
@@ -21,7 +20,7 @@ def getAllImages():
 # función que filtra según el nombre del personaje.
 def filterByCharacter(name):
     filtered_cards = []
-
+    
     for card in getAllImages():
         # debe verificar si el name está contenido en el nombre de la card, antes de agregarlo al listado de filtered_cards.
         filtered_cards.append(card)
