@@ -32,13 +32,11 @@ def filterByCharacter(name):
 # De acá quité el filterbycharacter original. 
 
 # función que filtra las cards según su casa.
+
 def filterByHouse(house_name):
-    filtered_cards = []
-
-    for card in getAllImages():
-        # debe verificar si la casa de la card coincide con la recibida por parámetro. Si es así, se añade al listado de filtered_cards.
-        filtered_cards.append(card)
-
+    filtered_cards = [
+        card for card in getAllImages() if card.house.lower() == house_name.lower()
+    ]
     return filtered_cards
 
 # añadir favoritos (usado desde el template 'home.html')

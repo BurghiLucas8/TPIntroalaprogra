@@ -30,17 +30,17 @@ def search(request):
         return redirect('home')
 
 # función utilizada para filtrar por casa Gryffindor o Slytherin.
+
 def filter_by_house(request):
     house = request.POST.get('house', '')
 
-    if house != '':
-        images = [] # debe traer un listado filtrado de imágenes, según la casa.
-        favourite_list = []
+    if house:
+        images = services.filterByHouse(house)  # Llamamos a la función de services
+        favourite_list = []  # Acá podrías agregar los favoritos si es necesario
 
         return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
     else:
         return redirect('home')
-
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
 @login_required
 def getAllFavouritesByUser(request):

@@ -27,3 +27,27 @@ def search(request):
         return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
     else:
         return redirect('home')
+
+# función que filtra las cards según su casa.
+def filterByHouse(house_name):
+    filtered_cards = []
+
+    for card in getAllImages():
+        # debe verificar si la casa de la card coincide con la recibida por parámetro. Si es así, se añade al listado de filtered_cards.
+        filtered_cards.append(card)
+
+    return filtered_cards
+
+def filter_by_house(request):
+    house = request.POST.get('house', '')
+
+    if house != '':
+        images = [] # debe traer un listado filtrado de imágenes, según la casa.
+        favourite_list = []
+
+        return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
+    else:
+        return redirect('home')
+
+
+
