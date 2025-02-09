@@ -18,6 +18,7 @@ def getAllImages():
     # ATENCIÓN: contemplar que los nombres alternativos, para cada personaje, deben elegirse al azar. Si no existen nombres alternativos, debe mostrar un mensaje adecuado.
 
 # función que filtra según el nombre del personaje.
+
 def filterByCharacter(name):
     filtered_cards = []
     
@@ -27,6 +28,8 @@ def filterByCharacter(name):
             filtered_cards.append(card)
 
     return filtered_cards
+
+# De acá quité el filterbycharacter original. 
 
 # función que filtra las cards según su casa.
 def filterByHouse(house_name):

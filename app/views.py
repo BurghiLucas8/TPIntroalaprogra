@@ -16,15 +16,16 @@ def home(request):
     return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
 
 # función utilizada en el buscador.
-def search(request):
-    name = request.POST.get('query', '')
 
-    # si el usuario ingresó algo en el buscador, se deben filtrar las imágenes por dicho ingreso.
-    if (name != ''):
-        images = []
-        favourite_list = []
+def search(request):
+    name = request.POST.get('query', '').strip()  # Obtener el nombre y limpiar espacios
+    
+    if name:  # Si el usuario ingresó algo en el buscador
+        images = services.filterByCharacter(name)  # Filtrar las imágenes por nombre
+        favourite_list = []  # Acá deberías cargar los favoritos, si es necesario
 
         return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
+    
     else:
         return redirect('home')
 
