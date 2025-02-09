@@ -5,3 +5,7 @@
 2- Modifiqué views.py
     a- en la función "home" añadí "services.getAllImages()
     b- 
+
+color: #566787;
+    background: #f5f5f5;
+    font-family: 'Roboto', sans-serif;
