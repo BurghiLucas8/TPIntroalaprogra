@@ -4,3 +4,4 @@
     c- return card_list que retorna la lista de imagenes
 2- Modifiqué views.py
     a- en la función "home" añadí "services.getAllImages()
+    b- 

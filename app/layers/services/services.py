@@ -23,7 +23,8 @@ def filterByCharacter(name):
     
     for card in getAllImages():
         # debe verificar si el name está contenido en el nombre de la card, antes de agregarlo al listado de filtered_cards.
-        filtered_cards.append(card)
+        if name.lower() in card.name.lower():  # Filtra por coincidencia en minúsculas
+            filtered_cards.append(card)
 
     return filtered_cards
 
