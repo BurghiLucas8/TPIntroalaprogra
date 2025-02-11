@@ -9,6 +9,17 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Esta sección permite mostrar mensajes de éxito o error -->
+            {% if messages %}  
+            <div class="alert alert-info">
+                <ul>
+                {% for message in messages %}
+                    <li>{{ message|safe }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
@@ -22,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for favourite in favourite_list %}
+                    {% for favourite in favourites %}
                     <tr>
                         <td>-</td>
                         <td><img src="{{ favourite.image }}" alt="" style="max-width: 200px; max-height: 200px;"></td>

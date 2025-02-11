@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 class Favourite(models.Model):
     # Detalles del personaje.
     name = models.CharField(max_length=200)  # Nombre del personaje

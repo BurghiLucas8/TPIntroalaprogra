@@ -5,6 +5,9 @@ from ..persistence import repositories
 from ..utilities import translator
 from django.contrib.auth import get_user
 from ..utilities.translator import fromRequestIntoCard
+from ...models import Favourite
+from django.shortcuts import redirect
+from django.contrib import messages
 
 # función que devuelve un listado de cards. Cada card representa una imagen de la API de HP.
 def getAllImages():
@@ -67,16 +70,35 @@ def getAllFavourites(request):
         return []
     else:
         user = get_user(request)
-
-        favourite_list = [] # buscamos desde el repositories.py TODOS Los favoritos del usuario (variable 'user').
+        
+        # Obtengo los favoritos del usuario desde la base de datos. 
+        
+        favourites = Favourite.objects.filter(user=user)
+        
+        #Ahora convierto cada favorito en una Card
         mapped_favourites = []
-
-        for favourite in favourite_list:
-            card = '' # convertimos cada favorito en una Card, y lo almacenamos en el listado de mapped_favourites que luego se retorna.
+        
+        for favourite in favourites:
+            card = {
+                'name': favourite.name,
+                'gender': favourite.gender,
+                'house': favourite.house,
+                'actor': favourite.actor,
+                'image': favourite.image,
+            }
             mapped_favourites.append(card)
 
         return mapped_favourites
 
 def deleteFavourite(request):
-    favId = request.POST.get('id')
-    return repositories.delete_favourite(favId) # borramos un favorito por su ID
+    if request.method == "POST":
+        favId = request.POST.get('id')
+        if favId:
+            try:
+                favourite = Favourite.objects.get(id=favId)
+                favourite.delete() # Elimino el favorito
+                return redirect("favoritos") # Redigimos a favoritos
+            except Favourite.DoesNotExist:
+                # Si no encuentra el favorito, redirigimos o mostramos un mensaje de error.
+                messages.error(request, "¡Favorito no encontrado!")
+                return redirect("favoritos")
