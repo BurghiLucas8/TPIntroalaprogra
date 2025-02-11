@@ -31,6 +31,21 @@ def filterByCharacter(name):
 
 # De acá quité el filterbycharacter original. 
 
+#función que cambia el borde de color.
+
+def addBorderColor(cards):
+    for card in cards:
+        house = card.house if card.house else "Sin casa" #Acá me estoy asegurando que no sea None.
+    
+    #Voy a definir un valor por defecto para evitar errores
+    card.border_color = "border_warning" #Predeterminado
+    
+    if house == "Gryffindor":
+        card.border_color = "border-success"
+    elif house == "Slytherin":
+        card.border_color = "border-danger"
+    return cards
+
 # función que filtra las cards según su casa.
 
 def filterByHouse(house_name):

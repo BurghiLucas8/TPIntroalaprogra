@@ -9,6 +9,13 @@ class Card:
         
         self.user = user  # Usuario asociado (si corresponde)
         self.id = id  # ID único (si corresponde)
+         # Defino border_color
+        if self.house == "Gryffindor":
+            self.border_color = "border-success"
+        elif self.house == "Slytherin":
+            self.border_color = "border-danger"
+        else:
+            self.border_color = "border-warning"
 
     def __str__(self):
         return (f'name: {self.name}, gender: {self.gender}, house: {self.house}, '

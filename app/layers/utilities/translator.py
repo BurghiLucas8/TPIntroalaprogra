@@ -12,6 +12,13 @@ def fromRequestIntoCard(object):
         actor=object.get('actor'),  # Actor (puede no estar presente)
         image=object['image']  # URL de la imagen
     )
+     # Inicializar border_color en la instancia de Card
+    if card.house == "Gryffindor":
+        card.border_color = "border-success"
+    elif card.house == "Slytherin":
+        card.border_color = "border-danger"
+    else:
+        card.border_color = "border-warning"
     return card
 
 

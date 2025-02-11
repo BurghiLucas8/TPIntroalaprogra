@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from .layers.services import services
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from .layers.services.services import addBorderColor
 
 def index_page(request):
     return render(request, 'index.html')
@@ -12,6 +13,7 @@ def index_page(request):
 def home(request):
     images = services.getAllImages() #Lucas: Ahora deberíamos obtener las imágenes de la API
     favourite_list = [] #Lucas: Queda vacío por el momento
+    images = addBorderColor(images) #Asignar color de borde
 
     return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
 
