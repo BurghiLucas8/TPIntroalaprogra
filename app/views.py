@@ -5,7 +5,6 @@ from django.shortcuts import redirect, render
 from .layers.services import services
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .layers.services.services import addBorderColor
 from .models import Favourite
 
 def index_page(request):
@@ -14,10 +13,9 @@ def index_page(request):
 # esta función obtiene 2 listados: uno de las imágenes de la API y otro de favoritos, ambos en formato Card, y los dibuja en el template 'home.html'.
 def home(request):
     images = services.getAllImages() #Lucas: Ahora deberíamos obtener las imágenes de la API
-    favourite_list = [] #Lucas: Queda vacío por el momento
-    images = addBorderColor(images) #Asignar color de borde
+    images = services.addBorderColor(images) #Asignar color de borde
 
-    return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
+    return render(request, 'home.html', { 'images': images,})
 
 # función utilizada en el buscador.
 
@@ -26,9 +24,8 @@ def search(request):
     
     if name:  # Si el usuario ingresó algo en el buscador
         images = services.filterByCharacter(name)  # Filtrar las imágenes por nombre
-        favourite_list = []  # Acá deberías cargar los favoritos, si es necesario
 
-        return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
+        return render(request, 'home.html', { 'images': images})
     
     else:
         return redirect('home')
@@ -42,7 +39,7 @@ def filter_by_house(request):
         images = services.filterByHouse(house)  # Llamamos a la función de services
         favourite_list = []  # Acá podrías agregar los favoritos si es necesario
 
-        return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
+        return render(request, 'home.html', { 'images': images})
     else:
         return redirect('home')
     
@@ -51,14 +48,16 @@ def user_login(request):
     if request.method == "POST":
         username = request.POST.get("Username")
         password = request.POST.get("Password")
+        
     #Aca voy a verificar las credenciales.
-    user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)
     
-    if user is not None:
-        login(request, user) #Inicia sesión.
-        return redirect("home") # Redirige a la página principal si el login es exitoso.
-    else:
-        messages.error(request, "Usuario o contraseña incorrectos") #Muestra error si los datos son incorrectos.
+        if user is not None:
+            login(request, user) #Inicia sesión.
+            return redirect("home") # Redirige a la página principal si el login es exitoso.
+        else:
+            messages.error(request, "Usuario o contraseña incorrectos") #Muestra error si los datos son incorrectos.
+    
     return render(request, "login.html")
             
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
@@ -82,6 +81,10 @@ def saveFavourite(request):
         actor = request.POST.get("actor")
         image = request.POST.get("image")
         
+        #Verifico si el favorito ya existe para el usuario actual.
+        if Favourite.objects.filter(name=name,user=request.user).exists():
+            #Si el favorito ya existe, cambio el estilo del botón
+            return redirect("home")
         #Estoy creando el objeto "FAVOURITE" y lo asocio con el usuario actual
         favourite = Favourite(
             name = name,
@@ -104,7 +107,17 @@ def saveFavourite(request):
 
 @login_required
 def deleteFavourite(request):
-    pass
+    if request.method == "POST":
+        favId = request.POST.get("id")
+        if favId:
+            try:
+                favourite = Favourite.objects.get(id=favId, user=request.user) # Acá, aparte de definir a favourite, estoy verificando que el favorito le pertenece al usuario logueado.
+                favourite.delete() # Elimino el favorito
+            except Favourite.DoesNotExist:
+                messages.error(request, "Favorito no encontrado")
+        else:
+            messages.error(request,"ID de favorito no proporcionada")
+    return redirect("favoritos")
 
 @login_required
 def exit(request):

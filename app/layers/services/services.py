@@ -90,15 +90,3 @@ def getAllFavourites(request):
 
         return mapped_favourites
 
-def deleteFavourite(request):
-    if request.method == "POST":
-        favId = request.POST.get('id')
-        if favId:
-            try:
-                favourite = Favourite.objects.get(id=favId)
-                favourite.delete() # Elimino el favorito
-                return redirect("favoritos") # Redigimos a favoritos
-            except Favourite.DoesNotExist:
-                # Si no encuentra el favorito, redirigimos o mostramos un mensaje de error.
-                messages.error(request, "¡Favorito no encontrado!")
-                return redirect("favoritos")
