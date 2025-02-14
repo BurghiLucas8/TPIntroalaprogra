@@ -37,7 +37,6 @@ def filter_by_house(request):
 
     if house:
         images = services.filterByHouse(house)  # Llamamos a la función de services
-        favourite_list = []  # Acá podrías agregar los favoritos si es necesario
 
         return render(request, 'home.html', { 'images': images})
     else:

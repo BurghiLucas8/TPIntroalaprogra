@@ -1,13 +1,35 @@
 {% extends 'header.html' %} {% block content %}
-<main>
-    <h1 class="text-center">Buscador de personajes de Harry Potter</h1>
+{% load static %}
+<style>
+    main {
+        background-image: url("{% static 'background/wallpaper2.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+     /* Estilos para las cards */
+     .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Efecto hover: agrandar la card y agregar sombra */
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+    }
+
+</style>
+
+<main data-bs-theme="dark">
+    <h1 class="text-center" style="color: rgb(181, 230, 230);">Buscador de personajes de Harry Potter</h1>
 
     <div class="d-flex justify-content-center" style="margin-bottom: 1%">
         <!-- Buscador del sitio -->
         <form class="d-flex" action="{% url 'buscar' %}" method="POST">
             {% csrf_token %}
             <input class="form-control me-2" type="search" name="query" placeholder="Ginny, Ron, Harry" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
+            <button class="btn btn-outline-warning" type="submit">Buscar</button>
         </form>
     </div>
 
